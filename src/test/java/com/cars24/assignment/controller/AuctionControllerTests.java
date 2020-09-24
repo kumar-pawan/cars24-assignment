@@ -13,6 +13,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -34,17 +38,21 @@ public class AuctionControllerTests {
 	MockitoAnnotations.initMocks(this);
 	controller = new AuctionController(auctionService, validations);
 	doNothing().when(validations).checkAuthentication(Mockito.anyString());
-	when(auctionService.getAuctionByStatus(Mockito.anyString())).thenReturn(new ArrayList<AuctionResponse>());
+	when(auctionService.getAuctionByStatus(Mockito.anyString(), Mockito.any())).thenReturn(Page.empty());
     }
 
     @Test
     public void getAuctions() {
-	ResponseEntity<List<AuctionResponse>> responseEntity = controller.getAuctions("Running",
-		"sdfsafdasfasdfasfrasdfafdsf");
+	ResponseEntity<Page<AuctionResponse>> responseEntity = controller.getAuctions("Running",
+		"sdfsafdasfasdfasfrasdfafdsf", getPageable());
 
 	assertNotNull(responseEntity);
 	assertNotNull(responseEntity.getBody());
 	assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
 
+    }
+
+    private Pageable getPageable(){
+      return PageRequest.of(0, 20, Sort.by(Sort.Order.asc("itemCode")));
     }
 }

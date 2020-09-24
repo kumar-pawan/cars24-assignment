@@ -1,10 +1,10 @@
 package com.cars24.assignment.service;
 
 import com.cars24.assignment.model.AuctionResponse;
-
-import java.util.List;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface AuctionService {
 
-  List<AuctionResponse> getAuctionByStatus(String status);
+  Page<AuctionResponse> getAuctionByStatus(String status, Pageable pageable);
 }

@@ -6,11 +6,10 @@ import com.cars24.assignment.model.jpa.Auction;
 import com.cars24.assignment.repository.AuctionRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -23,7 +22,7 @@ public class AuctionServiceImpl implements AuctionService {
   }
 
   @Override
-  public List<AuctionResponse> getAuctionByStatus(String status) {
+  public Page<AuctionResponse> getAuctionByStatus(String status, Pageable pageable) {
 
     try {
       log.info("Getting the auctions list");
@@ -31,9 +30,9 @@ public class AuctionServiceImpl implements AuctionService {
       if (StringUtils.isEmpty(status)) {
         log.info("Not status given in the input, will fetch all the auction");
       }
-      List<Auction> auctions = StringUtils.isEmpty(status) ? (List<Auction>) auctionRepository.findAll() :
-          auctionRepository.getByAuctionStatus(status.toUpperCase());
-      if (CollectionUtils.isEmpty(auctions)) {
+      Page<Auction> auctions = StringUtils.isEmpty(status) ? auctionRepository.findAll(pageable) :
+          auctionRepository.getByAuctionStatus(status.toUpperCase(), pageable);
+      if (CollectionUtils.isEmpty(auctions.getContent())) {
         throw new AuctionNotFoundException("No auction found");
       }
       return mapResponse(auctions);
@@ -45,9 +44,10 @@ public class AuctionServiceImpl implements AuctionService {
 
   }
 
-  private List<AuctionResponse> mapResponse(List<Auction> auctions) {
+  private Page<AuctionResponse> mapResponse(Page<Auction> auctionsPage) {
 
-    return auctions.parallelStream().map(auction -> map(auction)).collect(Collectors.toList());
+    log.info("page values {}", auctionsPage);
+    return auctionsPage.map((auction) -> map(auction));
   }
 
   private final AuctionResponse map(Auction auction) {

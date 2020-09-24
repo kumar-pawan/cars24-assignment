@@ -2,16 +2,17 @@ package com.cars24.assignment.controller;
 
 import com.cars24.assignment.model.AuctionResponse;
 import com.cars24.assignment.service.AuctionService;
+import com.cars24.assignment.utils.PageHelper;
 import com.cars24.assignment.validation.Validations;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -39,12 +40,14 @@ public class AuctionController {
    * @param accessToken {String}
    */
   @GetMapping(value = "/cars24/auctions")
-  public ResponseEntity<List<AuctionResponse>> getAuctions(@RequestParam("status") final String status,
-      @RequestHeader("accessToken") String accessToken) {
+  public ResponseEntity<Page<AuctionResponse>> getAuctions(@RequestParam("status") String status,
+      @RequestHeader("accessToken") String accessToken, Pageable pageable) {
     log.info("getting the auction list");
 
     validations.checkAuthentication(accessToken);
+    Pageable updatedPageable = PageHelper.acutionSortingFieldMapper(pageable);
 
-    return new ResponseEntity<List<AuctionResponse>>(auctionService.getAuctionByStatus(status), HttpStatus.OK);
+    return new ResponseEntity<Page<AuctionResponse>>(auctionService.getAuctionByStatus(status, updatedPageable),
+        HttpStatus.OK);
   }
 }

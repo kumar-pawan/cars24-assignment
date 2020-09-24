@@ -19,6 +19,11 @@ import com.cars24.assignment.model.jpa.ItemDetails;
 import com.cars24.assignment.repository.AuctionRepository;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 
 @Slf4j
 public class AuctionServiceImplTests {
@@ -35,25 +40,24 @@ public class AuctionServiceImplTests {
 
     @Test
     public void getRunningAuction() {
-	Mockito.when(auctionRepository.getByAuctionStatus("RUNNING")).thenReturn(response("Running"));
-	List<AuctionResponse> responses = serviceImpl.getAuctionByStatus("Running");
-	assertEquals(3, responses.size());
-	Mockito.verify(auctionRepository, times(1)).getByAuctionStatus(Mockito.anyString());
+	Mockito.when(auctionRepository.getByAuctionStatus(Mockito.anyString(), Mockito.any())).thenReturn(response("runing", getPageable()));
+	Page<AuctionResponse> responses = serviceImpl.getAuctionByStatus("Running", getPageable());
+	assertEquals(3, responses.getContent().size());
+	Mockito.verify(auctionRepository, times(1)).getByAuctionStatus(Mockito.anyString(), Mockito.any());
 	Mockito.verify(auctionRepository, times(0)).findAll();
     }
 
     @Test
     public void getAllAuction() {
-	List<Auction> auctions = response("Running");
-	auctions.addAll(response("Over"));
-	Mockito.when(auctionRepository.findAll()).thenReturn(auctions);
-	List<AuctionResponse> responses = serviceImpl.getAuctionByStatus(null);
-	assertEquals(6, responses.size());
-	Mockito.verify(auctionRepository, times(0)).getByAuctionStatus(Mockito.anyString());
-	Mockito.verify(auctionRepository, times(1)).findAll();
+	Page<Auction> auctions = response("Running", getPageable());
+	Mockito.when(auctionRepository.findAll(Mockito.any())).thenReturn(auctions);
+	Page<AuctionResponse> responses = serviceImpl.getAuctionByStatus(null, getPageable());
+	assertEquals(3, responses.getContent().size());
+	Mockito.verify(auctionRepository, times(0)).getByAuctionStatus(Mockito.anyString(), Mockito.any());
+	Mockito.verify(auctionRepository, times(1)).findAll(Mockito.any());
     }
 
-    private List<Auction> response(String status) {
+    private Page<Auction> response(String status, Pageable pageable) {
 
 	ItemDetails itemDetails = new ItemDetails();
 	itemDetails.setId(1);
@@ -85,7 +89,11 @@ public class AuctionServiceImplTests {
 	auction2.setItem(itemDetails);
 	auctions.add(auction2);
 
-	return auctions;
+		return new PageImpl<Auction>(auctions, pageable, 1000);
     }
+
+	private Pageable getPageable(){
+		return PageRequest.of(0, 20, Sort.by(Sort.Order.asc("itemCode")));
+	}
 
 }
