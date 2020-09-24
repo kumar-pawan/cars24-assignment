@@ -1,0 +1,159 @@
+{
+	"info": {
+		"_postman_id": "808317cb-bfa6-43d6-a503-c008fe29a58d",
+		"name": "Cars24Assignment",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get  Auctions",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "accessToken",
+						"value": "sdlkfahqwo874y3874yf832ghf87234gf32",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"conversation_id\" : \"dlskjfkldsjflksdf\",\n    \"channel_origin_id\" : \"sdfds-ewrwe-dvdsv-23232\",\n    \"payload\": {\n        \n    }\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/cars24/auctions?status=running",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cars24",
+						"auctions"
+					],
+					"query": [
+						{
+							"key": "status",
+							"value": "running"
+						}
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "Get  Auctions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "accessToken",
+								"value": "sdlkfahqwo874y3874yf832ghf87234gf32",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"conversation_id\" : \"dlskjfkldsjflksdf\",\n    \"channel_origin_id\" : \"sdfds-ewrwe-dvdsv-23232\",\n    \"payload\": {\n        \n    }\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/cars24/auctions?status=running",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"cars24",
+								"auctions"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "running"
+								}
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Transfer-Encoding",
+							"value": "chunked"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 24 Sep 2020 08:15:39 GMT"
+						},
+						{
+							"key": "Keep-Alive",
+							"value": "timeout=60"
+						},
+						{
+							"key": "Connection",
+							"value": "keep-alive"
+						}
+					],
+					"cookie": [],
+					"body": "[\n    {\n        \"itemCode\": 1,\n        \"highestBid\": 4200,\n        \"stepRate\": 250\n    },\n    {\n        \"itemCode\": 2,\n        \"highestBid\": 5500,\n        \"stepRate\": 500\n    },\n    {\n        \"itemCode\": 4,\n        \"highestBid\": 17000,\n        \"stepRate\": 1000\n    }\n]"
+				}
+			]
+		},
+		{
+			"name": "Post Bid",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "accessToken",
+						"value": "sdlkfahqwo874y3874yf832ghf87234gf32",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n   \"bidAmount\": 4200\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/cars24/auctions/7/bid",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"cars24",
+						"auctions",
+						"7",
+						"bid"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

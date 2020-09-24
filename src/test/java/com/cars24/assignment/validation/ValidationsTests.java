@@ -6,15 +6,16 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 
 import com.cars24.assignment.exception.AuthenticationException;
+import com.cars24.assignment.model.LoggedInUserDetails;
+import com.cars24.assignment.utils.AuthHelper;
 
 public class ValidationsTests {
 
     @Mock
-    private RedisTemplate<String, Object> redisTemplate;
+    private AuthHelper authHelper;
 
     @Mock
     private ValueOperations<String, Object> valueOperations;
@@ -27,8 +28,7 @@ public class ValidationsTests {
     @BeforeEach
     public void init() {
 	MockitoAnnotations.initMocks(this);
-	validations = new Validations(redisTemplate);
-	Mockito.when(redisTemplate.opsForValue()).thenReturn(valueOperations);
+	validations = new Validations(authHelper);
     }
 
     @Test
@@ -40,13 +40,13 @@ public class ValidationsTests {
 
     @Test
     public void validationNoValuesInRedis() {
-	Mockito.when(valueOperations.get(Mockito.anyString())).thenReturn(null);
+	Mockito.when(authHelper.validateUser(Mockito.anyString())).thenReturn(null);
 	Assertions.assertThrows(AuthenticationException.class, () -> validations.checkAuthentication(accessToken));
     }
 
     @Test
     public void successTest() {
-	Mockito.when(valueOperations.get(Mockito.anyString())).thenReturn(email);
+	Mockito.when(authHelper.validateUser(Mockito.anyString())).thenReturn(LoggedInUserDetails.builder().email(email).contact(1234567890).build());
 	validations.checkAuthentication(accessToken);
     }
 }

@@ -53,9 +53,9 @@ INSERT INTO auction(id, item_id, min_price, step_rate, highest_bid, auction_stat
 (5, 5, 5000, 200, 8000, 'OVER');
 
 CREATE TABLE bidding_details(
-id int PRIMARY KEY,
+id int AUTO_INCREMENT PRIMARY KEY,
 auction_id int NOT NULL,
-user_id int NOT NULL,
+user_id varchar NOT NULL,
 bid_price int NOT NULL,
 bid_status varchar NOT NULL,
 FOREIGN KEY (auction_id) REFERENCES auction(id),

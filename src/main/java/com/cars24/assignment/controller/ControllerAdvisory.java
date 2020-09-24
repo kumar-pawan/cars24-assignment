@@ -1,6 +1,7 @@
 package com.cars24.assignment.controller;
 
 import com.cars24.assignment.exception.AuctionNotFoundException;
+import com.cars24.assignment.exception.AuctionOverException;
 import com.cars24.assignment.exception.AuthenticationException;
 import com.cars24.assignment.exception.InvalidBidException;
 import com.cars24.assignment.model.ErrorResponse;
@@ -24,6 +25,20 @@ public class ControllerAdvisory {
         ErrorResponse.builder().code(HttpStatus.UNAUTHORIZED.value()).message(exception.getMessage())
             .timestamp(System.currentTimeMillis()).exception(exception.getClass().getSimpleName()).build(),
         HttpStatus.UNAUTHORIZED);
+  }
+
+  /**
+   * AuctionOverException.
+   *
+   * @return ResponseEntity
+   */
+  @ExceptionHandler(value = AuctionOverException.class)
+  public ResponseEntity<ErrorResponse> handleAuctionOverErrorResponse(AuctionOverException exception) {
+
+    return new ResponseEntity<ErrorResponse>(
+        ErrorResponse.builder().code(HttpStatus.BAD_REQUEST.value()).message(exception.getMessage())
+            .timestamp(System.currentTimeMillis()).exception(exception.getClass().getSimpleName()).build(),
+        HttpStatus.BAD_REQUEST);
   }
 
   /**
