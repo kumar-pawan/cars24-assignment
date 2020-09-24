@@ -27,8 +27,14 @@ only a logged in user can access the endpoints. For the purpose user need to pas
 
 
 # Rest Endpoints
- 1. Get Auctions:  /cars24/auctions?status=running (status can be running, over or an empty string to get all auctions)
+ 1. Get Auctions:  /cars24/auctions?status=running
  2. Place a bid: /cars24/auctions/{itemCode}/bid
+
+# Pagination
+For Auction api, Pagination is enabled, following request parameter you can pass for Pagination
+1. page(int) -- page number
+2. size(int) -- number of item in the page
+3. sort (filedName,ASC) -- name of the filed received in the response
 
  you can refer to the postman collection file for request and response models and further details
  /Cars24Assignment.postman_collection.json
