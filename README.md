@@ -4,7 +4,7 @@ This service provide the user to get the list of running auctions and place a bi
 
 This README.md wil help you to know about tech stack used in this service and how to setup on your local and use.
 
-#Tech Stack
+# Tech Stack
 1. java8
 2. Springboot: 2.3.4.RELEASE (One of the top framework in the web development world and very easy to use. Also, comes up with ready to use component for almost all the use cases)
 3. H2 Database (JPA):(For assignment purpose. Although, JPA is used, we can change to any relationtional database by just changes few configurations)
