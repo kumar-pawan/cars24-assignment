@@ -22,7 +22,7 @@ public class ControllerAdvisory {
 
     return new ResponseEntity<ErrorResponse>(
         ErrorResponse.builder().code(HttpStatus.UNAUTHORIZED.value()).message(exception.getMessage())
-            .timestamp(System.currentTimeMillis()).exception(exception.getCause().getMessage()).build(),
+            .timestamp(System.currentTimeMillis()).exception(exception.getClass().getSimpleName()).build(),
         HttpStatus.UNAUTHORIZED);
   }
 
@@ -36,7 +36,7 @@ public class ControllerAdvisory {
 
     return new ResponseEntity<ErrorResponse>(
         ErrorResponse.builder().code(HttpStatus.NOT_FOUND.value()).message(exception.getMessage())
-            .timestamp(System.currentTimeMillis()).exception(exception.getCause().getMessage()).build(),
+            .timestamp(System.currentTimeMillis()).exception(exception.getClass().getSimpleName()).build(),
         HttpStatus.NOT_FOUND);
   }
 
@@ -50,7 +50,7 @@ public class ControllerAdvisory {
 
     return new ResponseEntity<ErrorResponse>(
         ErrorResponse.builder().code(HttpStatus.NOT_ACCEPTABLE.value()).message(exception.getMessage())
-            .timestamp(System.currentTimeMillis()).exception(exception.getCause().getMessage()).build(),
+            .timestamp(System.currentTimeMillis()).exception(exception.getClass().getSimpleName()).build(),
         HttpStatus.NOT_ACCEPTABLE);
   }
 
@@ -64,7 +64,7 @@ public class ControllerAdvisory {
 
     return new ResponseEntity<ErrorResponse>(
         ErrorResponse.builder().code(HttpStatus.INTERNAL_SERVER_ERROR.value()).message(exception.getMessage())
-            .timestamp(System.currentTimeMillis()).exception(exception.getCause().getMessage()).build(),
+            .timestamp(System.currentTimeMillis()).exception(exception.getClass().getSimpleName()).build(),
         HttpStatus.INTERNAL_SERVER_ERROR);
   }
 }

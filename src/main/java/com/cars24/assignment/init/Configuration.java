@@ -1,5 +1,6 @@
 package com.cars24.assignment.init;
 
+import com.cars24.assignment.model.LoggedInUserDetails;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -43,9 +44,12 @@ public class Configuration {
     return (args) -> {
       log.info("Adding Dummy tokens in the redis for cache");
       // This is dummy access token for logged in users
-      redisTemplate.opsForValue().set("sdlkfahqwo874y3874yf832ghf87234gf32", "abc@cars24.com");
-      redisTemplate.opsForValue().set("lksjdoighjrgownb3498h03gnrdsjknvf32", "xyz@cars24.com");
-      redisTemplate.opsForValue().set("kjwhef923y4rwehfe9238f2hfweofh23kbdw", "pqr@cars24.com");
+      redisTemplate.opsForValue().set("sdlkfahqwo874y3874yf832ghf87234gf32",
+          LoggedInUserDetails.builder().email("abc@cars24.com").contact(1234567890).build());
+      redisTemplate.opsForValue().set("lksjdoighjrgownb3498h03gnrdsjknvf32",
+          LoggedInUserDetails.builder().email("xyz@cars24.com").contact(1234567890).build());
+      redisTemplate.opsForValue().set("kjwhef923y4rwehfe9238f2hfweofh23kbdw",
+          LoggedInUserDetails.builder().email("pqr@cars24.com").contact(1234567890).build());
 
     };
   }
